@@ -1,3 +1,16 @@
+复制自官方jenkins，自己修改了jenkins的版本，官方目前的有点旧了，openshift和k8s相关插件暂时不支持，如果添加自己公网没有买域名的k8s，需要在docker run的时候自己挂载hosts文件，方便映射
+自己先build镜像，需要先打开oc.download.text,先将oc和kubectl下载并解压到当前目录。然后执行
+```
+docker build -t jenkins-2.179::oc
+docker run -d -p 8080:8080 -p 50000:50000 -v /root/jenkins_home/:/var/jenkins_home -v /root/hosts:/etc/hosts --restart=always jenkins-2.179:oc
+```
+最方便的使用k8s插件，需要jenkins能公网映射到jenkins的8080和50000端口，在k8s 的jenkins url和tunnel中填写对应的地址和端口，如：
+url      http://124.251.110.xxx:8080
+tunnel   124.251.110.xxx:50000
+
+keep empty in "command to run" and "argument to pass to the command"
+
+
 # Official Jenkins Docker image
 
 [![Docker Stars](https://img.shields.io/docker/stars/jenkins/jenkins.svg)](https://hub.docker.com/r/jenkins/jenkins/)
